@@ -6,30 +6,87 @@
     <title>@ViewData["Title"] - AmazonSystem.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/header-main.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+          integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png">
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">AmazonSystem.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+        <nav>
+            <section class="top">
+                <img class="logo"
+                     src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" />
+
+                <div class="search">
+                    <select id="options">
+                        <option value="all">All Departments</option>
+                        <option>Arts & Crafts</option>
+                        <option>Automovie</option>
+                        <option>Baby</option>
+                        <option>Beaty & Personal Care</option>
+                        <option>Books</option>
+                        <option>Computers</option>
+                        <option>Digital Music</option>
+                        <option>Electronics</option>
+                    </select>
+
+                    <input type="text" class="search-input" />
+                    <button class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
-            </div>
+
+                <div id="menuToggle">
+                    <input class="hamburger-button" type="button" />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul id="menu">
+                    <li class="account">
+                        Hello, Sign In
+                        <p>Account & List</p>
+                    </li>
+                    <li class="orders">
+                        Returns
+                        <p>& Orders</p>
+                    </li>
+                    <li class="shopping-card">
+                        <i class="fas fa-shopping-cart"></i>
+                        Card
+                    </li>
+                </ul>
+            </section>
+
+            <section class="down">
+                <button class="menu"
+                        onclick="this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))"
+                        aria-label="Main Menu">
+                    <svg id="hamburger" width="50" height="50" viewBox="0 0 100 100">
+                        <path class="line line1"
+                              d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                        <path class="line line2" d="M 20,50 H 80" />
+                        <path class="line line3"
+                              d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                    </svg>
+                </button>
+
+                <ul class="main-navigation">
+                    <li>Today's Deals</li>
+                    <li>Customer Service</li>
+                    <li>Registry</li>
+                    <li>Gift Cards</li>
+                    <li>Sell</li>
+                </ul>
+
+            </section>
         </nav>
     </header>
+
+    <script src="./js/hamburger.js"></script>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

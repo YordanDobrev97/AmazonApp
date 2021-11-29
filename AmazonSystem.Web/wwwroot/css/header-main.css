@@ -1,0 +1,16 @@
+﻿.header-main {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.header-card {
+    border: 1px solid black;
+    padding: 18px;
+    margin: 20px auto;
+}
+
+.header-card img {
+    width: 200px;
+    height: 170px;
+}
