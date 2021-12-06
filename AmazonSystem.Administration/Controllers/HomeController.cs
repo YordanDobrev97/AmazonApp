@@ -1,5 +1,4 @@
-﻿using AmazonSystem.Web.Models;
-using Microsoft.AspNetCore.Identity;
+﻿using AmazonSystem.Administration.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AmazonSystem.Web.Controllers
+namespace AmazonSystem.Administration.Controllers
 {
     public class HomeController : Controller
     {
@@ -21,9 +20,6 @@ namespace AmazonSystem.Web.Controllers
 
         public IActionResult Index()
         {
-            IdentityUser user = new IdentityUser();
-            user.UserName = "Pencho";
-
             return View();
         }
 

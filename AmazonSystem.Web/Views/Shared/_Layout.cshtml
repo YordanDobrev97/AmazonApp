@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -16,8 +18,10 @@
     <header>
         <nav>
             <section class="top">
-                <img class="logo"
-                     src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" />
+                <a asp-controller="Home" asp-action="Index">
+                    <img class="logo"
+                         src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" />
+                </a>
 
                 <div class="search">
                     <select id="options">
@@ -46,7 +50,16 @@
                 </div>
                 <ul id="menu">
                     <li class="account">
-                        Hello, Sign In
+                        Hello,
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span>@UserManager.GetUserName(User)</span>
+                        }
+                        else
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Login">Sign In</a>
+                        }
+
                         <p>Account & List</p>
                     </li>
                     <li class="orders">
@@ -79,6 +92,14 @@
                     <li>Registry</li>
                     <li>Gift Cards</li>
                     <li>Sell</li>
+                    <li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
+                                <button class="btn btn-link" type="submit">Logout</button>
+                            </form>
+                        }
+                    </li>
                 </ul>
 
             </section>
