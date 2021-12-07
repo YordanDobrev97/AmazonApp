@@ -14,16 +14,5 @@ namespace AmazonSystem.Products.Controllers
         {
             this.productsRepository = productsRepository;
         }
-
-        public async Task<List<Product>> GetAll()
-        {
-            var products = await this.productsRepository.All();
-            return products;
-        }
-
-        public async Task Add(Product product)
-        {
-            await this.productsRepository.Add(product);
-        }
     }
 }
