@@ -89,9 +89,13 @@
 }
 
 .product-list img {
-    width: 200px;
+    width: 95%;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
+}
+
+.image-product {
+    width: 95% !important;
 }
 
 .product-list .pro-img-box {
