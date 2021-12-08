@@ -26,12 +26,10 @@
                         <div class="card">
                             <img class="card-img-top" src="@product.ImageUrl" alt="Card image cap">
                             <div class="card-body">
-                                <h4 class="card-title">
-                                    <a asp-area="Admin" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">@product.Name</a>
-                                </h4>
+                                <h4 class="card-title">@product.Name</h4>
                                 <div class="row">
                                     <div class="col">
-                                        <p class="btn btn-danger btn-block">@product.Price $</p>
+                                        <a class="btn btn-outline-success m-auto" asp-area="Admin" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">Details</a>
                                     </div>
                                 </div>
                             </div>

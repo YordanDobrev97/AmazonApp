@@ -30,5 +30,10 @@ namespace AmazonSystem.Web.Services.Products
             var product = await this.productsRepository.Details(id);
             return product;
         }
+
+        public async Task Delete(int id)
+        {
+            await this.productsRepository.Delete(id);
+        }
     }
 }

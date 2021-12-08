@@ -11,5 +11,7 @@ namespace AmazonSystem.Web.Services.Products
         Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category);
 
         Task<ProductDetailsViewModel> Details(int id);
+
+        Task Delete(int id);
     }
 }

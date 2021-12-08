@@ -40,5 +40,11 @@ namespace AmazonSystem.Web.Areas.Admin.Controllers
             var product = await this.productsService.Details(id);
             return this.View(product);
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.productsService.Delete(id);
+            return this.RedirectToAction("Index", "Products");
+        }
     }
 }

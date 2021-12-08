@@ -18,6 +18,38 @@ namespace AmazonSystem.Products.Repository
             this.dbContext = dbContext;
         }
 
+        public async Task<ProductViewModel> All(int id)
+        {
+            var max = GlobalConstants.ProductPerPage;
+            var skip = (id - 1) * max;
+
+            var products = await this.dbContext.Products
+                .Skip(skip)
+                .Take(max)
+                .Select(p => new ListProductViewModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    ImageUrl = p.ImageUrl,
+                    Price = p.Price
+                }).ToListAsync();
+
+            var categories = await this.dbContext.Categories.Select(x => new CategoryViewModel()
+            {
+                Name = x.Name,
+            }).ToListAsync();
+
+            var viewModel = new ProductViewModel()
+            {
+                CurrentPage = id,
+                PagesCount = (int)Math.Ceiling(this.dbContext.Products.Count() / (decimal)max),
+                Products = products,
+                Categories = categories
+            };
+
+            return viewModel;
+        }
+
         public async Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category)
         {
             var productCategory = await this.dbContext.Categories.FirstOrDefaultAsync(x => x.Name == category);
@@ -45,42 +77,11 @@ namespace AmazonSystem.Products.Repository
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<ProductViewModel> All(int id)
-        {
-            var max = GlobalConstants.ProductPerPage;
-            var skip = (id - 1) * max;
-
-            var products = await this.dbContext.Products
-                .Skip(skip)
-                .Take(max)
-                .Select(p => new ListProductViewModel
-            {
-                Id = p.Id,
-                Name = p.Name,
-                ImageUrl = p.ImageUrl,
-                Price = p.Price
-            }).ToListAsync();
-
-            var categories = await this.dbContext.Categories.Select(x => new CategoryViewModel()
-            {
-                Name = x.Name,
-            }).ToListAsync();
-
-            var viewModel = new ProductViewModel()
-            {
-                CurrentPage = id,
-                PagesCount = (int)Math.Ceiling(this.dbContext.Products.Count() / (decimal)max),
-                Products = products,
-                Categories = categories
-            };
-
-            return viewModel;
-        }
-
         public async Task<ProductDetailsViewModel> Details(int id)
         {
             var product = await this.dbContext.Products.Where(x => x.Id == id).Select(x => new ProductDetailsViewModel()
             {
+                Id = x.Id,
                 Name = x.Name,
                 ImageUrl = x.ImageUrl,
                 Price = x.Price,
@@ -88,6 +89,13 @@ namespace AmazonSystem.Products.Repository
             }).FirstOrDefaultAsync();
 
             return product;
+        }
+
+        public async Task Delete(int id)
+        {
+            var product = await this.dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            this.dbContext.Products.Remove(product);
+            await this.dbContext.SaveChangesAsync();
         }
     }
 }
