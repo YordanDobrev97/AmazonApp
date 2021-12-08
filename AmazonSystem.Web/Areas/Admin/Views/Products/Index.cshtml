@@ -1,5 +1,5 @@
 ﻿@using AmazonSystem.Products.ViewModels
-@model List<ListProductViewModel>
+@model ProductViewModel
 @{
     ViewData["Title"] = "Products";
 }
@@ -11,17 +11,16 @@
             <div class="card bg-light mb-3">
                 <div class="card-header bg-primary text-white text-uppercase"><i class="fa fa-list"></i> Categories</div>
                 <ul class="list-group category_block">
-                    <li class="list-group-item"><a href="category.html">Cras justo odio</a></li>
-                    <li class="list-group-item"><a href="category.html">Dapibus ac facilisis in</a></li>
-                    <li class="list-group-item"><a href="category.html">Morbi leo risus</a></li>
-                    <li class="list-group-item"><a href="category.html">Porta ac consectetur ac</a></li>
-                    <li class="list-group-item"><a href="category.html">Vestibulum at eros</a></li>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li class="list-group-item"><a href="category.html">@category.Name</a></li>
+                    }
                 </ul>
             </div>
         </div>
         <div class="col">
             <div class="row">
-                @foreach (var product in Model)
+                @foreach (var product in Model.Products)
                 {
                     <div class="col-12 col-md-6 col-lg-4">
                         <div class="card">

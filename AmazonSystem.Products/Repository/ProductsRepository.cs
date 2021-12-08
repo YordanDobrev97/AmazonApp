@@ -2,8 +2,6 @@
 using AmazonSystem.Products.ViewModels;
 using AmazonSystem.Web.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -45,17 +43,28 @@ namespace AmazonSystem.Products.Repository
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ListProductViewModel>> All()
+        public async Task<ProductViewModel> All()
         {
-            var products = this.dbContext.Products.Select(p => new ListProductViewModel
+            var products = await this.dbContext.Products.Select(p => new ListProductViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
                 ImageUrl = p.ImageUrl,
                 Price = p.Price
             }).ToListAsync();
-            
-            return await products;
+
+            var categories = await this.dbContext.Categories.Select(x => new CategoryViewModel()
+            {
+                Name = x.Name,
+            }).ToListAsync();
+
+            var viewModel = new ProductViewModel()
+            {
+                Products = products,
+                Categories = categories
+            };
+
+            return viewModel;
         }
 
         public async Task<ProductDetailsViewModel> Details(int id)
