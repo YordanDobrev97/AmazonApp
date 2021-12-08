@@ -1,4 +1,6 @@
-﻿using AmazonSystem.Products.Repository;
+﻿using AmazonSystem.Common;
+using AmazonSystem.Products.Repository;
+using AmazonSystem.Products.ViewModels;
 using AmazonSystem.Web.Services.Products;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,10 +17,10 @@ namespace AmazonSystem.Web.Areas.Admin.Controllers
             this.productsService = productsService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id = 1)
         {
-            var products = await this.productsService.All();
-            return this.View(products);
+            var data = await this.productsService.All(id);
+            return this.View(data);
         }
 
         public IActionResult Add()
@@ -30,7 +32,7 @@ namespace AmazonSystem.Web.Areas.Admin.Controllers
         public async Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category)
         {
             await this.productsService.Add(name, imageUrl, description, quantity, price, category);
-            this.RedirectToAction("Index", "Products");
+            await this.Index(0);
         }
 
         public async Task<IActionResult> Details(int id)

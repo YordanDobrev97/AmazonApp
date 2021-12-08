@@ -14,9 +14,9 @@ namespace AmazonSystem.Web.Services.Products
             this.productsRepository = productsRepository;
         }
 
-        public async Task<ProductViewModel> All()
+        public async Task<ProductViewModel> All(int id)
         {
-            var products = await this.productsRepository.All();
+            var products = await this.productsRepository.All(id);
             return products;
         }
 

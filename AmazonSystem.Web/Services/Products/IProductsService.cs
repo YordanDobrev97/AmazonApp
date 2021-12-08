@@ -6,7 +6,7 @@ namespace AmazonSystem.Web.Services.Products
 {
     public interface IProductsService
     {
-        Task<ProductViewModel> All();
+        Task<ProductViewModel> All(int id);
 
         Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category);
 

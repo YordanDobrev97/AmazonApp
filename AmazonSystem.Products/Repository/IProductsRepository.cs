@@ -6,7 +6,7 @@ namespace AmazonSystem.Products.Repository
 {
     public interface IProductsRepository
     {
-        Task<ProductViewModel> All();
+        Task<ProductViewModel> All(int id);
 
         Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category);
 

@@ -1,7 +1,9 @@
-﻿using AmazonSystem.Data.Models;
+﻿using AmazonSystem.Common;
+using AmazonSystem.Data.Models;
 using AmazonSystem.Products.ViewModels;
 using AmazonSystem.Web.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,9 +45,15 @@ namespace AmazonSystem.Products.Repository
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<ProductViewModel> All()
+        public async Task<ProductViewModel> All(int id)
         {
-            var products = await this.dbContext.Products.Select(p => new ListProductViewModel
+            var max = GlobalConstants.ProductPerPage;
+            var skip = (id - 1) * max;
+
+            var products = await this.dbContext.Products
+                .Skip(skip)
+                .Take(max)
+                .Select(p => new ListProductViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
@@ -60,6 +68,8 @@ namespace AmazonSystem.Products.Repository
 
             var viewModel = new ProductViewModel()
             {
+                CurrentPage = id,
+                PagesCount = (int)Math.Ceiling(this.dbContext.Products.Count() / (decimal)max),
                 Products = products,
                 Categories = categories
             };
