@@ -29,10 +29,10 @@ namespace AmazonSystem.Web.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task Add(string name, string imageUrl, string description, int quantity, decimal price, string category)
+        public async Task<IActionResult> Add(string name, string imageUrl, string description, int quantity, decimal price, string category)
         {
             await this.productsService.Add(name, imageUrl, description, quantity, price, category);
-            await this.Index(0);
+            return this.RedirectToAction("Index", "Products");
         }
 
         public async Task<IActionResult> Details(int id)
