@@ -1,3 +1,5 @@
+using AmazonSystem.Data;
+using AmazonSystem.Data.Models;
 using AmazonSystem.Web.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,11 +32,18 @@ namespace AmazonSystem.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddDefaultIdentity<ApplicationUser>(
+              IdentityOptionsProvider.GetIdentityOptions)
+              .AddRoles<ApplicationRole>()
+              .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllersWithViews();
+
+            services.AddRazorPages();
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,8 +12,10 @@
 </head>
 <body>
     <nav class="nav bg-purple justify-content-center">
-        <a class="nav-link text-white" href="#"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
-        <a class="nav-link text-white" href="#">Services</a>
+        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home" aria-hidden="true"></i> Home</a>
+        <a class="nav-link text-white" asp-area="Admin" asp-controller="Products" asp-action="Index">Products</a>
+        <a class="nav-link text-white" asp-area="Admin" asp-controller="Products" asp-action="Add">Add Product</a>
+
         <a class="nav-link text-white" href="#">Logout <i class="fa fa-sign-out" aria-hidden="true"></i></a>
     </nav>
 
