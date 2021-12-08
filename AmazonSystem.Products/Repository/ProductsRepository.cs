@@ -4,6 +4,7 @@ using AmazonSystem.Products.ViewModels;
 using AmazonSystem.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -95,6 +96,45 @@ namespace AmazonSystem.Products.Repository
         {
             var product = await this.dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
             this.dbContext.Products.Remove(product);
+            await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<ProductEditViewModel> Edit(int id)
+        {
+            var categories = await this.dbContext.Categories.Select(x => x.Name).ToListAsync();
+
+            var product = await this.dbContext.Products.Where(x => x.Id == id)
+                .Select(x => new ProductEditViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl,
+                    Price = x.Price.ToString(),
+                    Description = x.Description,
+                    Category = x.Category.Name,
+                    Categories = categories,
+                })
+                .FirstOrDefaultAsync();
+
+            return product;
+
+        }
+
+        public async Task Update(ProductEditViewModel productInput)
+        {
+            var parsed = decimal.Parse(productInput.Price, CultureInfo.InvariantCulture);
+
+            var product = await this.dbContext.Products.Where(x => x.Id == productInput.Id).FirstOrDefaultAsync();
+            var category = await this.dbContext.Categories.FirstOrDefaultAsync(x => x.Name == productInput.Category);
+
+            category.Name = productInput.Category;
+            product.Name = productInput.Name;
+            product.ImageUrl = productInput.ImageUrl;
+            product.Description = productInput.Description;
+            product.Price = parsed;
+            product.Category = category;
+
+            this.dbContext.Products.Update(product);
             await this.dbContext.SaveChangesAsync();
         }
     }

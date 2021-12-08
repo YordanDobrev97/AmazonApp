@@ -13,5 +13,9 @@ namespace AmazonSystem.Web.Services.Products
         Task<ProductDetailsViewModel> Details(int id);
 
         Task Delete(int id);
+
+        Task<ProductEditViewModel> Edit(int id);
+
+        Task UpdateAsync(ProductEditViewModel product);
     }
 }

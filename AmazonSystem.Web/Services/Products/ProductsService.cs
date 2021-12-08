@@ -35,5 +35,16 @@ namespace AmazonSystem.Web.Services.Products
         {
             await this.productsRepository.Delete(id);
         }
+
+        public async Task UpdateAsync(ProductEditViewModel product)
+        {
+            await this.productsRepository.Update(product);
+        }
+
+        public async Task<ProductEditViewModel> Edit(int id)
+        {
+            var product = await this.productsRepository.Edit(id);
+            return product;
+        }
     }
 }
