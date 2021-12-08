@@ -1,6 +1,8 @@
 using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
+using AmazonSystem.Products.Repository;
 using AmazonSystem.Web.Data;
+using AmazonSystem.Web.Services.Products;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,6 +44,12 @@ namespace AmazonSystem.Web
             services.AddControllersWithViews();
 
             services.AddRazorPages();
+
+            // repositories
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+
+            // services
+            services.AddTransient<IProductsService, ProductsService>();
 
             services.AddHealthChecks();
         }

@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AmazonSystem.Data\AmazonSystem.Data.csproj" />
+    <ProjectReference Include="..\AmazonSystem.Products\AmazonSystem.Products.csproj" />
   </ItemGroup>
 
 </Project>

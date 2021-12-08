@@ -57,5 +57,18 @@ namespace AmazonSystem.Products.Repository
             
             return await products;
         }
+
+        public async Task<ProductDetailsViewModel> Details(int id)
+        {
+            var product = await this.dbContext.Products.Where(x => x.Id == id).Select(x => new ProductDetailsViewModel()
+            {
+                Name = x.Name,
+                ImageUrl = x.ImageUrl,
+                Price = x.Price,
+                Description = x.Description
+            }).FirstOrDefaultAsync();
+
+            return product;
+        }
     }
 }

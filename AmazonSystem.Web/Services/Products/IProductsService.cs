@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AmazonSystem.Products.Repository
+namespace AmazonSystem.Web.Services.Products
 {
-    public interface IProductsRepository
+    public interface IProductsService
     {
         Task<List<ListProductViewModel>> All();
 
