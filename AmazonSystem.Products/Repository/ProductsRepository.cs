@@ -146,7 +146,8 @@ namespace AmazonSystem.Products.Repository
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    ImageUrl = x.ImageUrl
+                    ImageUrl = x.ImageUrl,
+                    Price = x.Price,
                 }).ToListAsync();
 
             return products;

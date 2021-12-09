@@ -19,8 +19,4 @@
     <ProjectReference Include="..\AmazonSystem.Data\AmazonSystem.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
