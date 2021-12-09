@@ -17,5 +17,7 @@ namespace AmazonSystem.Products.Repository
         Task<ProductEditViewModel> Edit(int id);
 
         Task Update(ProductEditViewModel product);
+
+        Task<List<ListProductViewModel>> SearchByCategory(string category);
     }
 }

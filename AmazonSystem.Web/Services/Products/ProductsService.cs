@@ -46,5 +46,11 @@ namespace AmazonSystem.Web.Services.Products
             var product = await this.productsRepository.Edit(id);
             return product;
         }
+
+        public async Task<List<ListProductViewModel>> SearchByCategory(string category)
+        {
+            var productsByCategory = await this.productsRepository.SearchByCategory(category);
+            return productsByCategory;
+        }
     }
 }

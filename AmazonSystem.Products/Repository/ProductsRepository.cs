@@ -4,6 +4,7 @@ using AmazonSystem.Products.ViewModels;
 using AmazonSystem.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -136,6 +137,19 @@ namespace AmazonSystem.Products.Repository
 
             this.dbContext.Products.Update(product);
             await this.dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<ListProductViewModel>> SearchByCategory(string category)
+        {
+            var products = await this.dbContext.Products.Where(x => x.Category.Name == category)
+                .Select(x => new ListProductViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl
+                }).ToListAsync();
+
+            return products;
         }
     }
 }
