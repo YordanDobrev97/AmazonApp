@@ -63,7 +63,10 @@
                 <hr />
                 <div class="row">
                     <div class="col-sm-12 col-md-6 col-lg-6">
-                        <a class="btn btn-warning">Add to cart</a>
+                        <button onclick="addToCart('@Model.Id')" class="btn btn-warning">Add to cart</button>
+                    </div>
+                    <div class="col-md-6">
+                        <p  style="display: none;" class="alert alert-info w-100 message-cart"></p>
                     </div>
                 </div>
             </div>

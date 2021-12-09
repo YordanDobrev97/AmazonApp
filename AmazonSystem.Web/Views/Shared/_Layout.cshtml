@@ -69,8 +69,10 @@
                         <p>& Orders</p>
                     </li>
                     <li class="shopping-card">
-                        <i class="fas fa-shopping-cart"></i>
-                        Card
+                        <a class="btn btn-link" asp-area="" asp-controller="Cart" asp-action="Basket">
+                            <i class="fas fa-shopping-cart"></i>
+                            Card
+                        </a>
                     </li>
                 </ul>
             </section>
@@ -128,6 +130,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/productsByCategory.js" asp-append-version="true"></script>
+    <script src="~/js/ajaxAddToCart.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

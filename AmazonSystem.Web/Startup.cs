@@ -45,6 +45,8 @@ namespace AmazonSystem.Web
 
             services.AddRazorPages();
 
+            services.AddSession();
+
             // repositories
             services.AddScoped<IProductsRepository, ProductsRepository>();
 
@@ -72,6 +74,7 @@ namespace AmazonSystem.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
