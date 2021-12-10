@@ -52,15 +52,21 @@ namespace AmazonSystem.Web.Controllers
             return new JsonResult("Succesfully added!");
         }
 
+        [Route("api/[controller]/RemoveFromCart")]
+        public IActionResult RemoveFromCart([FromBody] RemoveItemCartModel cartModel)
+        {
+            List<CartItemModel> cartItems = GetCartItems();
+            var item = cartItems.Find(x => x.ProductId == cartModel.Id);
+            cartItems.Remove(item);
+
+            session.SetString(GlobalConstants.SessionKey, JsonConvert.SerializeObject(cartItems));
+            return new JsonResult(cartModel.Id);
+
+        }
+
         public IActionResult Basket()
         {
-            var productItems = session.GetString(GlobalConstants.SessionKey);
-            if  (productItems == null)
-            {
-                productItems = "[]";
-            }
-
-            var cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(productItems);
+            List<CartItemModel> cartItems = GetCartItems();
             return this.View(cartItems);
         }
 
@@ -68,6 +74,7 @@ namespace AmazonSystem.Web.Controllers
         {
             return this.View();
         }
+
 
         private static void AddToCartItems(CartItemModel inputModel, List<CartItemModel> cartItems, ProductDetailsViewModel productItem)
         {
@@ -80,6 +87,18 @@ namespace AmazonSystem.Web.Controllers
                 Quantity = 1
             };
             cartItems.Add(newCartItem);
+        }
+
+        private List<CartItemModel> GetCartItems()
+        {
+            var productItems = session.GetString(GlobalConstants.SessionKey);
+            if (productItems == null)
+            {
+                productItems = "[]";
+            }
+
+            var cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(productItems);
+            return cartItems;
         }
     }
 }

@@ -4,7 +4,8 @@
     ViewData["Title"] = "Basket";
 }
 
-<link rel="stylesheet" href="~/css/basket.css" />
+<link rel="stylesheet" href="~/css/basket.css" asp-append-version="true"/>
+<script src="~/js/ajaxRemoveFromCart.js" asp-append-version="true"></script>
 
 <div class="card">
     <table class="table table-hover shopping-cart-wrap">
@@ -24,7 +25,7 @@
 
             @foreach (var product in Model)
             {
-                <tr>
+                <tr id="@product.ProductId">
                     <td>
                         <figure class="media">
                             <div class="img-wrap">
@@ -50,7 +51,7 @@
                         </div>
                     </td>
                     <td class="text-right">
-                        <a href="#" class="btn btn-outline-danger"> × Remove</a>
+                        <button class="btn btn-outline-danger" onclick="removeFromCart('@product.ProductId')" >× Remove</button>
                     </td>
                 </tr>
             }
