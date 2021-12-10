@@ -55,6 +55,11 @@ namespace AmazonSystem.Web.Controllers
         public IActionResult Basket()
         {
             var productItems = session.GetString(GlobalConstants.SessionKey);
+            if  (productItems == null)
+            {
+                productItems = "[]";
+            }
+
             var cartItems = JsonConvert.DeserializeObject<List<CartItemModel>>(productItems);
             return this.View(cartItems);
         }
