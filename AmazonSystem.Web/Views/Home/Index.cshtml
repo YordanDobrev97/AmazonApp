@@ -2,50 +2,47 @@
     ViewData["Title"] = "Home Page";
 }
 
-<link rel="stylesheet" href="~/css/productsByCategory.css"/>
-
-<section class="header-main">
-    <div class="header-card">
-        <h2>Books</h2>
-        <img src="https://images-na.ssl-images-amazon.com/images/G/01/AmazonBooksMarketing/Landing-Page-Store-Image/JLG1.jpg" />
+<section class="container-fluid bg-white d-md-flex flex-wrap w-100">
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Books</h2>
+        <img class="w-50" src="https://images-na.ssl-images-amazon.com/images/G/01/AmazonBooksMarketing/Landing-Page-Store-Image/JLG1.jpg" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="books">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Electronics</h2>
-        <img src="https://bsmedia.business-standard.com/_media/bs/img/article/2021-05/17/full/1621192354-9509.jpg" />
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Electronics</h2>
+        <img class="w-50" src="https://bsmedia.business-standard.com/_media/bs/img/article/2021-05/17/full/1621192354-9509.jpg" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="electronics">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Holiday Gifts</h2>
-        <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/last-minute-holiday-gifts-1632954227.jpg?crop=1.00xw:0.751xh;0,0.249xh&resize=1200:*"
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Holiday Gifts</h2>
+        <img class="w-50" src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/last-minute-holiday-gifts-1632954227.jpg?crop=1.00xw:0.751xh;0,0.249xh&resize=1200:*"
              alt="">
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="holiday gifts">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Beaty & Personal Care</h2>
-        <img src="https://static.onecms.io/wp-content/uploads/sites/14/2020/11/13/111320_amazon_beauty_lead-2000.jpg" alt="beaty & Personal Care" />
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Beaty & Personal Care</h2>
+        <img class="w-50" src="https://static.onecms.io/wp-content/uploads/sites/14/2020/11/13/111320_amazon_beauty_lead-2000.jpg" alt="beaty & Personal Care" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="beaty & personal care">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Digital Music</h2>
-        <img src="https://sm.pcmag.com/t/pcmag_au/review/a/amazon-mus/amazon-music-prime_y1xj.1920.jpg" alt="Digital Music" />
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Digital Music</h2>
+        <img class="w-50" src="https://sm.pcmag.com/t/pcmag_au/review/a/amazon-mus/amazon-music-prime_y1xj.1920.jpg" alt="Digital Music" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="digital music">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Art & Crafts</h2>
-        <img src="https://cdn.vox-cdn.com/thumbor/p9RiIMSFInmxVR3xQnCXxUkgpoE=/0x19:640x446/1200x800/filters:focal(0x19:640x446)/cdn.vox-cdn.com/assets/3014695/amazonartpad.jpg" alt="art & crafts" />
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Art & Crafts</h2>
+        <img class="w-50" src="https://cdn.vox-cdn.com/thumbor/p9RiIMSFInmxVR3xQnCXxUkgpoE=/0x19:640x446/1200x800/filters:focal(0x19:640x446)/cdn.vox-cdn.com/assets/3014695/amazonartpad.jpg" alt="art & crafts" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="art & crafts">See more</a></p>
     </div>
 
-    <div class="header-card">
-        <h2>Computers</h2>
-        <img src="https://m.media-amazon.com/images/I/61aTywrhyBS._AC_SY450_.jpg" alt="computers" />
+    <div class="col-md-4">
+        <h2 style="font-size: 18px;">Computers</h2>
+        <img class="w-50" src="https://m.media-amazon.com/images/I/61aTywrhyBS._AC_SY450_.jpg" alt="computers" />
         <p><a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-category="computers">See more</a></p>
     </div>
-
 </section>

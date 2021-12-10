@@ -1,5 +1,5 @@
 ﻿@using AmazonSystem.Data.Models
- 
+
 @inject UserManager<ApplicationUser> UserManager
 
 <!DOCTYPE html>
@@ -9,111 +9,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - AmazonSystem.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/header-main.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
           integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png">
-
+    <style>
+    </style>
 </head>
 <body>
     <header>
-        <nav>
-            <section class="top">
-                <a asp-controller="Home" asp-action="Index">
-                    <img class="logo"
-                         src="https://images-na.ssl-images-amazon.com/images/G/01/gc/designs/livepreview/amazon_dkblue_noto_email_v2016_us-main._CB468775337_.png" />
-                </a>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!--brand, search-->
+                <div class="row">
+                    <div class="navbar-header">
+                        <button type="button" data-toggle="collapse" data-target="#bar" class="navbar-toggle">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <h1 id="head">Amazon</h1>
+                    </a>
 
-                <div class="search">
-                    <select id="options">
-                        <option value="all">All Departments</option>
-                        <option>Arts & Crafts</option>
-                        <option>Automovie</option>
-                        <option>Baby</option>
-                        <option>Beaty & Personal Care</option>
-                        <option>Books</option>
-                        <option>Computers</option>
-                        <option>Digital Music</option>
-                        <option>Electronics</option>
-                    </select>
+                    <div class="hidden-xs search pull-left input-group">
+                        <!--All button-->
 
-                    <input type="text" class="search-input" />
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
+                        <div class="input-group-btn search-panel">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                <span id="search-content">All </span>
+                                <span class="caret"></span>
+                            </button>
+
+                            <ul class=" dropdown-menu" role="menu">
+                                <li><a href="#all">All Categories</a></li>
+                                <li><a href="#x">Art & Crafts</a></li>
+                                <li><a href="#y">Automovie</a></li>
+                                <li><a href="#z">Baby</a></li>
+                                <li><a href="#a">Beaty & Personal Care</a></li>
+                                <li><a href="#a">Books</a></li>
+                                <li><a href="#a">Computers</a></li>
+                                <li><a href="#a">Digital Music</a></li>
+                                <li><a href="#a">Electronics</a></li>
+                            </ul>
+
+                        </div>
+                        <input type="hidden" value="all">
+                        <input type="text" class="form-control" placeholder="Search">
+                        <span class="input-group-btn">
+                            <button type="button" class="sub btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
                 </div>
 
-                <div id="menuToggle">
-                    <input class="hamburger-button" type="button" />
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <div class="show">
+                                <span class="grey">
+                                    Hello,
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <span>@UserManager.GetUserName(User)</span>
+
+                                        <form style="background-color: none;" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
+                                            <button style="border:none; background: none; color: white;" type="submit">Logout</button>
+                                        </form>
+                                    }
+                                    else
+                                    {
+                                        <a asp-area="Identity" asp-page="/Account/Login">Sign In</a>
+                                    }
+                                </span>
+                                <div>
+                                    <span class="text-white">Your Orders</span>
+                                </div>
+
+                                <div>
+                                    <a asp-area="Admin" asp-controller="Admin" asp-action="Index">Administration</a>
+                                </div>
+
+                                <!--hamburger-->
+                                <div style="display: none;" class="visible-xs container">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h5 class="center  panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                                                    Hello, Sign In,Your Orders
+                                                </a>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--hamburger end-->
+                            </div>
+                        </li>
+
+                        <li class="hidden-xs">
+                            <a asp-controller="Cart" asp-action="Basket">
+                                <div>
+                                    <i class="fas fa-shopping-cart"></i>
+                                    <span class="white bold">Cart</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <ul id="menu">
-                    <li class="account">
-                        Hello,
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <span>@UserManager.GetUserName(User)</span>
-                        }
-                        else
-                        {
-                            <a asp-area="Identity" asp-page="/Account/Login">Sign In</a>
-                        }
-
-                        <p>Account & List</p>
-                    </li>
-                    <li class="orders">
-                        Returns
-                        <p>& Orders</p>
-                    </li>
-                    <li class="shopping-card">
-                        <a class="btn btn-link" asp-area="" asp-controller="Cart" asp-action="Basket">
-                            <i class="fas fa-shopping-cart"></i>
-                            Card
-                        </a>
-                    </li>
-                </ul>
-            </section>
-
-            <section class="down">
-                <button class="menu"
-                        onclick="this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))"
-                        aria-label="Main Menu">
-                    <svg id="hamburger" width="50" height="50" viewBox="0 0 100 100">
-                        <path class="line line1"
-                              d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
-                        <path class="line line2" d="M 20,50 H 80" />
-                        <path class="line line3"
-                              d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
-                    </svg>
-                </button>
-
-                <ul class="main-navigation">
-                    <li>Today's Deals</li>
-                    <li>Customer Service</li>
-                    <li>Registry</li>
-                    <li>Gift Cards</li>
-                    <li>Sell</li>
-                    <li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
-                                <button class="btn btn-link" type="submit">Logout</button>
-                            </form>
-                        }
-                    </li>
-                    <li>
-                        <a class="btn btn-link" asp-area="Admin" asp-controller="Admin" asp-action="Index">Administration</a>
-                    </li>
-                </ul>
-
-            </section>
+            </div>
         </nav>
     </header>
-
-    <script src="./js/hamburger.js" asp-append-version="true"></script>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -121,11 +128,93 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - AmazonSystem.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer style="padding-bottom:2em;background-color:#1e2e3a">
+        <div class="container-fluid" style=" margin-top: 170px;">
+            <div class="container d-md-flex">
+                <div class="row">
+                    <div class="col-sm-3 w-100">
+                        <h4 class="white" style="width: 300px;">Get to Know Us</h4>
+                        <div class="gap" style="width: 300px;">
+                            <a class="grey foot" href="#">About Us</a>
+                        </div>
+                        <div class="gap">
+                            <a class="grey foot" href="#">Careers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <h4 class="white">Connect with Us</h4>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Facebook</a>
+                    </div>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Twitter</a>
+                    </div>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Instagram</a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <h4 class="white">Let Us Help You</h4>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Your Account</a>
+                    </div>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Returns Centre</a>
+                    </div>
+                    <div class="gap">
+                        <a class="grey foot" href="#">100% Purchase Protection</a>
+                    </div>
+                    <div class="gap">
+                        <a class="grey foot" href="#">Help</a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: #37475A">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">India</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Australia</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Greenland</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Brazil</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class="foot grey">Alaska</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Singapore</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Canada</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">France</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Portugal</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Greece</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Japan</a>
+                    </div>
+                    <div class="pop end col-sm-1">
+                        <a href="#" class=" foot grey">Maldives</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
