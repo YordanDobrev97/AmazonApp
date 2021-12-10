@@ -59,6 +59,11 @@ namespace AmazonSystem.Web.Controllers
             return this.View(cartItems);
         }
 
+        public IActionResult Checkout()
+        {
+            return this.View();
+        }
+
         private static void AddToCartItems(CartItemModel inputModel, List<CartItemModel> cartItems, ProductDetailsViewModel productItem)
         {
             var newCartItem = new CartItemModel()
