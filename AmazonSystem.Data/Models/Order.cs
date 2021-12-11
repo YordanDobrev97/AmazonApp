@@ -24,6 +24,10 @@ namespace AmazonSystem.Data.Models
 
         public DateTime OrderDate { get; set; }
 
+        public ShippingStatus ShippingStatus { get; set; }
+
+        public ShippingMethod ShippingMethod { get; set; }
+
         public ICollection<OrderItem> OrderItems { get; set; }
     }
 }
