@@ -53,7 +53,7 @@ namespace AmazonSystem.Web.Controllers
         }
 
         [Route("api/[controller]/RemoveFromCart")]
-        public IActionResult RemoveFromCart([FromBody] RemoveItemCartModel cartModel)
+        public IActionResult RemoveFromCart([FromBody] ItemCartModel cartModel)
         {
             List<CartItemModel> cartItems = GetCartItems();
             var item = cartItems.Find(x => x.ProductId == cartModel.Id);
@@ -61,7 +61,27 @@ namespace AmazonSystem.Web.Controllers
 
             session.SetString(GlobalConstants.SessionKey, JsonConvert.SerializeObject(cartItems));
             return new JsonResult(cartModel.Id);
+        }
 
+        [Route("api/[controller]/IncreaseProductQuantity")]
+        public IActionResult IncreaseProductQuantity([FromBody] ItemCartModel cartModel)
+        {
+            List<CartItemModel> cartItems = GetCartItems();
+            var item = cartItems.Find(x => x.ProductId == cartModel.Id);
+            cartItems.Remove(item);
+            item.Quantity++;
+            cartItems.Add(item);
+            session.SetString(GlobalConstants.SessionKey, JsonConvert.SerializeObject(cartItems));
+
+            var response = new
+            {
+                Id = item.ProductId,
+                TotalPrice = item.ProductPrice * item.Quantity,
+                DoublePrice = item.ProductPrice * 2,
+                UpdateQuantity = item.Quantity
+            };
+
+            return new JsonResult(response);
         }
 
         public IActionResult Basket()
@@ -72,7 +92,8 @@ namespace AmazonSystem.Web.Controllers
 
         public IActionResult Checkout()
         {
-            return this.View();
+            List<CartItemModel> cartItems = GetCartItems();
+            return this.View(cartItems);
         }
 
 
