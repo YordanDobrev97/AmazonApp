@@ -75,7 +75,7 @@
                     <span class="totalPrice">@(productsSum + tax)</span>
                 </div>
             </div>
-            <button class="btn">Pay</button>
+            <a class="btn" asp-controller="Payments" asp-action="Pay" >Pay</a>
         </div>
     </div>
 </div>

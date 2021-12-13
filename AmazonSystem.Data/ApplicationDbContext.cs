@@ -1,9 +1,8 @@
 ﻿using AmazonSystem.Data.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AmazonSystem.Web.Data
+namespace AmazonSystem.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {

@@ -1,7 +1,7 @@
 ﻿using AmazonSystem.Common;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Products.ViewModels;
-using AmazonSystem.Web.Data;
+using AmazonSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,6 @@
 using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Products.Repository;
-using AmazonSystem.Web.Data;
 using AmazonSystem.Web.Services.Products;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

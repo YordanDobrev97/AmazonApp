@@ -1,0 +1,184 @@
+﻿
+@{ Layout = null;
+    ViewData["Title"] = "Payment"; }
+
+<link rel="stylesheet" href="~/css/payments.css" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+<link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/d/de/Amazon_icon.png">
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<script src="~/js/paymentsToggle.js"></script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 mb-lg-0 mb-3">
+            <div class="card p-3">
+                <div class="img-box">
+                    <button class="border-0" onclick="creditCardPayment()">
+                        <img src="https://www.freepnglogos.com/uploads/visa-logo-download-png-21.png" alt="">
+                    </button>
+                </div>
+                <div class="number">
+                    <label class="fw-bold" for="">**** **** **** 1060</label>
+                </div>
+                <div class="d-flex align-items-center justify-content-between">
+                    <small>
+                        <span class="fw-bold">Expiry date:</span>
+                        <span>10/16</span>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-lg-0 mb-4">
+            <div class="card p-3" style=" min-height: 100%;">
+                <div class="img-box">
+                    <button class="border-0" onclick="paypalPayment()">
+                        <img src="https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_1280.png" alt="">
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 mb-lg-0 mb-4">
+            <div class="card p-3" style=" min-height: 100%;">
+                <div class="img-box" style=" margin-left: 55px;">
+                    <button class="border-0" onclick="cashPayment()">
+                        <img style=" width: 200px; height: 130px;" src="https://thumbs.dreamstime.com/b/payment-cash-concept-outline-icon-linear-sign-thin-line-pictogram-logo-flat-vector-illustration-payment-cash-concept-outline-102922194.jpg" alt="">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form class="form" method="post" asp-area="" asp-controller="Payments" asp-action="Pay">
+    <h1 class="text-center">
+        Your Shipping Method:
+        <input hidden class="shipping-method-input" name="shippingMethod" value="CreditCard" />
+        <span class="shipping-method" name="shippingMethod">CreditCard</span>
+    </h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 mt-4">
+                <div class="card p-3">
+                    <p class="mb-0 fw-bold h4">Payment Methods</p>
+                </div>
+            </div>
+
+            <div class="container mt-5 px-5 cash-payment" style="display: none;">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card p-3">
+                            <div class="mt-4 mb-4">
+                                <h6 class="text-uppercase">Billing Address</h6>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="inputbox mt-3 mr-2">
+                                            <input type="text" name="street" class="form-control">
+                                            <span>Street Address</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="inputbox mt-3 mr-2">
+                                            <input type="text" name="city" class="form-control">
+                                            <span>City</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row d-md-flex align-items-baseline">
+                                    <div class="d-flex flex-column ml-2">
+                                        <select class="form-select form-select-lg mb-3" name="country"
+                                                aria-label=".form-select-lg example" style="padding: 5px; width: 180px; margin-top: 37px; margin-left: 10px;">
+                                            <option selected>Select country</option>
+                                            <option value="bulgaria">Bulgaria</option>
+                                            <option value="united kingdom">UK</option>
+                                            <option value="united states">USA</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6" style="margin-left: 8em;">
+                                        <div class="inputbox mt-3 mr-2">
+                                            <input type="text" name="zipCode" class="form-control" />
+                                            <span>Zip code</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 paypal-payment" style="display: none;">
+                <div class="card p-3">
+                    <div class="card-body border p-0">
+                        <p>Paypal</p>
+
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form__div">
+                                            <input type="text" name="paypalName" class="form-control">
+                                            <label for="" class="form__label">Name</label>
+                                        </div>
+                                        <div class="form__div">
+                                            <input type="text" name="paypalEmail" class="form-control">
+                                            <label for="" class="form__label">Paypal email</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 credit-card-payment">
+                <div class="card p-3">
+                    <div class="card-body border p-0">
+                        <p>
+                            <span class="fw-bold">Credit Card</span>
+                        </p>
+                        <div class="collapse show p-3 pt-0">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form__div">
+                                                <input id="cardNumber" name="cardNumber" type="text" class="form-control">
+                                                <label for="cardNumber" class="form__label">Card Number</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form__div">
+                                                <input id="cardDate" name="cardDate" type="text" class="form-control">
+                                                <label for="cardDate" class="form__label">MM / yy</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form__div">
+                                                <input id="cvv" name="cvv" type="text" class="form-control">
+                                                <label for="cvv" class="form__label">cvv code</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="form__div">
+                                                <input id="cardName" name="cardName" type="text" class="form-control">
+                                                <label for="cardName" class="form__label">name on the card</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary payment"> Make Payment </button>
+        </div>
+    </div>
+</form>

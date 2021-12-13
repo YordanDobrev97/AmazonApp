@@ -1,4 +1,4 @@
-using AmazonSystem.Web.Data;
+using AmazonSystem.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
