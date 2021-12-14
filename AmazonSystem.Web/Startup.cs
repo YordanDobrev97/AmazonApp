@@ -1,4 +1,5 @@
 using AmazonSystem.Common.Services.Addresses;
+using AmazonSystem.Common.Services.Users;
 using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Data.Seeding;
@@ -58,6 +59,7 @@ namespace AmazonSystem.Web
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IAddressesService, AddressesService>();
+            services.AddTransient<IUsersService, UsersService>();
 
             services.AddHealthChecks();
         }

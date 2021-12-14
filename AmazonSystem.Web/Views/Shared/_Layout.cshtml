@@ -73,7 +73,7 @@
                                     Hello,
                                     @if (User.Identity.IsAuthenticated)
                                     {
-                                        <span>@UserManager.GetUserName(User)</span>
+                                        <span>@UserManager.GetUserAsync(User).ConfigureAwait(true).GetAwaiter().GetResult().FirstName</span>
 
                                         <form style="background-color: none;" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@(this.Url.Action("Index", "Home", new { area = string.Empty }))">
                                             <button style="border:none; background: none; color: white;" type="submit">Logout</button>

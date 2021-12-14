@@ -1,6 +1,8 @@
 ﻿
 @{ ViewData["Title"] = "My Profile"; }
 
+<script src="~/js/ajaxProfileSettings.js"></script>
+
 <div class="container rounded bg-white mt-5 mb-5">
     <div class="row">
         <div class="col-md-3 border-right">
@@ -11,45 +13,60 @@
                 <button class="btn btn-success text-dark">Edit</button>
             </div>
         </div>
+
+        <div class="col-md-4">
+            <p style="display: none;" class="alert-success p-md-2" id="sucessfullyMessage"></p>
+            <p style="display: none;" class="alert-danger p-md-2" id="errorMessage"></p>
+        </div>
+
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">First Name</label>
-                        <input type="text" class="form-control" placeholder="First Name...">
+                    <div class="col-md-6">
+                        <label class="labels">First Name</label>
+                        <input id="firstName" type="text" class="form-control" placeholder="First Name...">
                     </div>
-                    <div class="col-md-6"><label class="labels">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Last Name...">
+                    <div class="col-md-6">
+                        <label class="labels">Last Name</label>
+                        <input id="lastName" type="text" class="form-control" placeholder="Last Name...">
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">Mobile Number</label>
-                        <input type="text" class="form-control" placeholder="enter phone number" value="">
+                        <input id="phoneNumber" type="text" class="form-control" placeholder="enter phone number" value="">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Street</label>
-                        <input type="text" class="form-control" placeholder="Enter steet name">
+                        <input id="street" type="text" class="form-control" placeholder="Enter steet name">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">City</label>
-                        <input type="text" class="form-control" placeholder="Enter your city">
+                        <input id="city" type="text" class="form-control" placeholder="Enter your city">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Postcode</label>
-                        <input type="text" class="form-control" placeholder="Enter your postcode">
+                        <input id="postcode" type="text" class="form-control" placeholder="Enter your postcode">
                     </div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="labels">Country</label>
-                        <input type="text" class="form-control" placeholder="country">
+                        <select id="country" class="form-control">
+                            <option>Select your country</option>
+                            <option value="bulgaria">Bulgaria</option>
+                            <option value="united kingdom">UK</option>
+                            <option value="united states">USA</option>
+                            <option value="france">France</option>
+                            <option value="germany">Germany</option>
+                        </select>
                     </div>
                 </div>
                 <div class="mt-5 text-center">
-                    <button class="btn btn-outline-warning profile-button" type="button">Save Profile</button>
+                    <button onclick="setUserProfileSettings()" class="btn btn-outline-warning profile-button" type="button">Save Profile</button>
                 </div>
             </div>
         </div>
