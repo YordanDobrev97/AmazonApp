@@ -1,6 +1,10 @@
+using AmazonSystem.Common.Services.Addresses;
 using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
+using AmazonSystem.Data.Seeding;
+using AmazonSystem.Orders.Repository;
 using AmazonSystem.Products.Repository;
+using AmazonSystem.Web.Services.Orders;
 using AmazonSystem.Web.Services.Products;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -48,9 +52,12 @@ namespace AmazonSystem.Web
 
             // repositories
             services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
 
             // services
             services.AddTransient<IProductsService, ProductsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IAddressesService, AddressesService>();
 
             services.AddHealthChecks();
         }
@@ -58,6 +65,19 @@ namespace AmazonSystem.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // Seed data on application startup
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                if (env.IsDevelopment())
+                {
+                    dbContext.Database.Migrate();
+                }
+
+                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

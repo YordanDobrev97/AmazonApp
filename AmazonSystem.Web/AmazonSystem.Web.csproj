@@ -24,6 +24,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AmazonSystem.Common\AmazonSystem.Common.csproj" />
     <ProjectReference Include="..\AmazonSystem.Data\AmazonSystem.Data.csproj" />
+    <ProjectReference Include="..\AmazonSystem.Orders\AmazonSystem.Orders.csproj" />
     <ProjectReference Include="..\AmazonSystem.Products\AmazonSystem.Products.csproj" />
   </ItemGroup>
 
