@@ -13,7 +13,7 @@ namespace AmazonSystem.Web.Services.Orders
             this.ordersRepository = ordersRepository;
         }
 
-        public async Task<bool> Create(CreateOrderViewModel model)
+        public async Task<int> Create(CreateOrderViewModel model)
         {
             return await this.ordersRepository.Create(model);
         }

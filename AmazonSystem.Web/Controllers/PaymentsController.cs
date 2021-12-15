@@ -1,7 +1,9 @@
 ﻿using AmazonSystem.Common;
 using AmazonSystem.Common.Services.Addresses;
+using AmazonSystem.Common.Services.Users;
 using AmazonSystem.Orders.ViewModels;
 using AmazonSystem.Web.Services.Orders;
+using AmazonSystem.Web.Services.Payments;
 using AmazonSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +17,22 @@ namespace AmazonSystem.Web.Controllers
     public class PaymentsController : Controller
     {
         private readonly IOrdersService ordersService;
+        private readonly IUsersService usersService;
+        private readonly IPaymentsService paymentsService;
         private readonly IAddressesService addressesService;
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ISession session;
 
-        public PaymentsController(IOrdersService ordersService, IAddressesService addressesService, IHttpContextAccessor httpContextAccessor)
+        public PaymentsController(
+            IOrdersService ordersService,
+            IUsersService usersService,
+            IPaymentsService paymentsService,
+            IAddressesService addressesService,
+            IHttpContextAccessor httpContextAccessor)
         {
             this.ordersService = ordersService;
+            this.usersService = usersService;
+            this.paymentsService = paymentsService;
             this.addressesService = addressesService;
             this.httpContextAccessor = httpContextAccessor;
             this.session = this.httpContextAccessor.HttpContext.Session;
@@ -36,13 +47,16 @@ namespace AmazonSystem.Web.Controllers
         public async Task<IActionResult> Pay(PaymentInputModel input)
         {
             var addressId = this.addressesService.IsExist(input?.Street, input?.City, input?.Country);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             if (input.ShippingMethod == "Cash" && addressId == GlobalConstants.InvalidAddressStatusCode)
             {
                 addressId = await this.addressesService.Create(input.Street, input.City, input.Country, input.ZipCode);
             }
-
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            else
+            {
+                addressId = await this.usersService.GetAddress(userId);
+            }
 
             var orderItems = this.GetCartItems();
 
@@ -52,17 +66,24 @@ namespace AmazonSystem.Web.Controllers
                 return this.View();
             }
 
-            bool isSuccess = await ordersService.Create(new CreateOrderViewModel()
+            int orderId = await ordersService.Create(new CreateOrderViewModel()
             {
                 ShippingMethod = input.ShippingMethod,
                 AddressId = addressId,
                 CustomerId = userId,
                 OrderItems = orderItems
             });
-
-            if (isSuccess)
+            
+            if (orderId == GlobalConstants.OrderStatusCode)
             {
-                //Payment ...
+                // TODO ...
+            }
+
+            bool isSuccessPayment = await this.paymentsService.Pay(orderId);
+
+            if (!isSuccessPayment)
+            {
+                // TODO ...
             }
 
             return this.RedirectToAction("Index", "Home");

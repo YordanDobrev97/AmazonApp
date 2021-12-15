@@ -1,4 +1,5 @@
-﻿using AmazonSystem.Data;
+﻿using AmazonSystem.Common;
+using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Orders.ViewModels;
 using System;
@@ -15,13 +16,13 @@ namespace AmazonSystem.Orders.Repository
             this.dbContext = dbContext;
         }
 
-        public async Task<bool> Create(CreateOrderViewModel model)
+        public async Task<int> Create(CreateOrderViewModel model)
         {
             bool isParseShippingMethodEnum = Enum.TryParse(model.ShippingMethod, true, out ShippingMethod shippingMethod);
 
             if (!isParseShippingMethodEnum)
             {
-                return false;
+                return GlobalConstants.OrderStatusCode;
             }
 
             var newOrder = new Order()
@@ -50,7 +51,7 @@ namespace AmazonSystem.Orders.Repository
             await this.dbContext.Orders.AddAsync(newOrder);
             await this.dbContext.SaveChangesAsync();
 
-            return true;
+            return newOrder.Id;
         }
 
         public Task<OrderDetailsViewModel> Details(int orderId)

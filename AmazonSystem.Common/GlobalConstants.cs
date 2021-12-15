@@ -7,5 +7,7 @@
         public const string SessionKey = "CartItems";
 
         public const int InvalidAddressStatusCode = -1;
+
+        public const int OrderStatusCode = 1000;
     }
 }

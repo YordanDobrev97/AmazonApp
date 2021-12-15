@@ -14,6 +14,18 @@ namespace AmazonSystem.Common.Services.Users
             this.dbContext = dbContext;
         }
 
+        public async Task<int> GetAddress(string userId)
+        {
+            var user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user.AddressId == null)
+            {
+                return GlobalConstants.InvalidAddressStatusCode;
+            }
+
+            return (int)user.AddressId;
+        }
+
         public async Task<bool> SetUserSettings(string userId, string firstName, string lastName, string city, string street, string postcode, string country, string phoneNumber)
         {
             var user = await this.dbContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
