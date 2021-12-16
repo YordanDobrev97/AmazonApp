@@ -23,6 +23,12 @@ namespace AmazonSystem.Data
 
         public DbSet<Payment> Payments { get; set; }
 
+        public DbSet<CreditCardPayment> CreditCardPayments { get; set; }
+
+        public DbSet<PaypalPayment> PaypalPayments { get; set; }
+
+        public DbSet<CashPayment> CashPayments { get; set; }
+
         public DbSet<Operator> Operators { get; set; }
     }
 }

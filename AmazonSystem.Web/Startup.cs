@@ -4,8 +4,10 @@ using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Data.Seeding;
 using AmazonSystem.Orders.Repository;
+using AmazonSystem.Payments.Repository;
 using AmazonSystem.Products.Repository;
 using AmazonSystem.Web.Services.Orders;
+using AmazonSystem.Web.Services.Payments;
 using AmazonSystem.Web.Services.Products;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,12 +56,14 @@ namespace AmazonSystem.Web
             // repositories
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IOrdersRepository, OrdersRepository>();
+            services.AddScoped<IPaymentsRepository, PaymentsRepository>();
 
             // services
             services.AddTransient<IProductsService, ProductsService>();
             services.AddTransient<IOrdersService, OrdersService>();
             services.AddTransient<IAddressesService, AddressesService>();
             services.AddTransient<IUsersService, UsersService>();
+            services.AddTransient<IPaymentsService, PaymentsService>();
 
             services.AddHealthChecks();
         }
