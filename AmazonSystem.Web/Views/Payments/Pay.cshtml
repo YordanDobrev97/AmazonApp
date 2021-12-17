@@ -1,6 +1,10 @@
-﻿
-@{ Layout = null;
-    ViewData["Title"] = "Payment"; }
+﻿@using AmazonSystem.Web.ViewModels 
+@model PaymentInputModel
+
+@{ 
+    Layout = null;
+    ViewData["Title"] = "Payment";
+}
 
 <link rel="stylesheet" href="~/css/payments.css" />
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -77,14 +81,16 @@
                                 <div class="row mt-3">
                                     <div class="col-md-6">
                                         <div class="inputbox mt-3 mr-2">
-                                            <input type="text" name="street" class="form-control">
+                                            <input asp-for="Street" type="text" name="street" class="form-control">
                                             <span>Street Address</span>
+                                            <span asp-validation-for="Street" class="text-danger"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="inputbox mt-3 mr-2">
-                                            <input type="text" name="city" class="form-control">
+                                            <input asp-for="City" type="text" name="city" class="form-control">
                                             <span>City</span>
+                                            <span asp-validation-for="City" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -101,8 +107,9 @@
 
                                     <div class="col-md-6" style="margin-left: 8em;">
                                         <div class="inputbox mt-3 mr-2">
-                                            <input type="text" name="zipCode" class="form-control" />
+                                            <input asp-for="ZipCode" type="text" name="zipCode" class="form-control" />
                                             <span>Zip code</span>
+                                            <span asp-validation-for="ZipCode" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -122,12 +129,14 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form__div">
-                                            <input type="text" name="paypalName" class="form-control">
+                                            <input asp-for="PaypalName" type="text" name="paypalName" class="form-control">
                                             <label for="" class="form__label">Name</label>
+                                            <span asp-validation-for="PaypalName" class="text-danger"></span>
                                         </div>
                                         <div class="form__div">
-                                            <input type="text" name="paypalEmail" class="form-control">
+                                            <input asp-for="PaypalEmail" type="text" name="paypalEmail" class="form-control">
                                             <label for="" class="form__label">Paypal email</label>
+                                            <span asp-validation-for="PaypalEmail" class="text-danger"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -149,26 +158,30 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="form__div">
-                                                <input id="cardNumber" name="cardNumber" type="text" class="form-control">
+                                                <input asp-for="CardNumber" id="cardNumber" name="cardNumber" type="text" class="form-control">
                                                 <label for="cardNumber" class="form__label">Card Number</label>
+                                                <span asp-validation-for="CardNumber" class="text-danger m-md-5"></span>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 m-lg-3">
                                             <div class="form__div">
-                                                <input id="cardDate" name="cardDate" type="text" class="form-control">
+                                                <input asp-for="CardDate" id="cardDate" name="cardDate" type="text" class="form-control">
                                                 <label for="cardDate" class="form__label">MM / yy</label>
+                                                <span asp-validation-for="CardDate" class="text-danger m-md-5"></span>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-6 m-lg-3">
                                             <div class="form__div">
-                                                <input id="cvv" name="cvv" type="text" class="form-control">
+                                                <input asp-for="Cvv" id="cvv" name="cvv" type="text" class="form-control">
                                                 <label for="cvv" class="form__label">cvv code</label>
+                                                <span asp-validation-for="Cvv" class="text-danger m-md-5"></span>
                                             </div>
                                         </div>
-                                        <div class="col-12">
+                                        <div class="col-12 m-lg-3">
                                             <div class="form__div">
-                                                <input id="cardName" name="cardName" type="text" class="form-control">
+                                                <input asp-for="CardName" id="cardName" name="cardName" type="text" class="form-control">
                                                 <label for="cardName" class="form__label">name on the card</label>
+                                                <span asp-validation-for="CardName" class="text-danger m-md-5"></span>
                                             </div>
                                         </div>
                                     </div>

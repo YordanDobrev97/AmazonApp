@@ -8,6 +8,7 @@ using AmazonSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -46,9 +47,14 @@ namespace AmazonSystem.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Pay(PaymentInputModel input)
         {
+            if (!ModelState.IsValid)
+            {
+                return this.View(input);
+            }
+
             var addressId = this.addressesService.IsExist(input?.Street, input?.City, input?.Country);
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            
             if (input.ShippingMethod == "Cash" && addressId == GlobalConstants.InvalidAddressStatusCode)
             {
                 addressId = await this.addressesService.Create(input.Street, input.City, input.Country, input.ZipCode);
@@ -62,8 +68,7 @@ namespace AmazonSystem.Web.Controllers
 
             if (orderItems.Count == 0)
             {
-                //TODO ...
-                return this.View();
+                this.RedirectToAction("Index", "Home");
             }
 
             int orderId = await ordersService.Create(new CreateOrderViewModel()
@@ -76,16 +81,19 @@ namespace AmazonSystem.Web.Controllers
             
             if (orderId == GlobalConstants.OrderStatusCode)
             {
-                // TODO ...
+                TempData["InvalidOrder"] = "Your order was unsuccessful, please try again later";
+                this.RedirectToAction("Index", "Home");
             }
 
             bool isSuccessPayment = await this.paymentsService.Pay(orderId);
 
             if (!isSuccessPayment)
             {
-                // TODO ...
+                TempData["InvalidPayment"] = "Your payment was unsuccessful, please try again later";
+                this.RedirectToAction("Index", "Home");
             }
 
+            TempData["ValidOrder"] = "Your order has been placed successfully and will arrive to you soon";
             return this.RedirectToAction("Index", "Home");
         }
 

@@ -123,6 +123,28 @@
         </nav>
     </header>
 
+    @if (TempData["ValidOrder"] != null)
+    {
+        <div>
+            <p class="alert alert-success">@TempData["ValidOrder"]</p>
+        </div>
+    }
+
+    @if (TempData["InvalidPayment"] != null)
+    {
+        <div>
+            <p class="alert alert-danger">@TempData["InvalidPayment"]</p>
+        </div>
+    }
+
+    @if (TempData["InvalidOrder"] != null)
+    {
+        <div>
+            <p class="alert alert-danger">@TempData["InvalidOrder"]</p>
+        </div>
+    }
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
