@@ -2,7 +2,10 @@
 using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using AmazonSystem.Orders.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AmazonSystem.Orders.Repository
@@ -57,6 +60,21 @@ namespace AmazonSystem.Orders.Repository
         public Task<OrderDetailsViewModel> Details(int orderId)
         {
             throw new System.NotImplementedException();
+        }
+
+        public async Task<List<UserOrdersViewModel>> GetUserOrders(string userId)
+        {
+            var orders = await this.dbContext.OrderItems
+                .Where(x => x.Order.CustomerId == userId)
+                .Include(x => x.Product.Category)
+                .Select(x => new UserOrdersViewModel()
+                {
+                    Product = x.Product,
+                    Order = x.Order,
+                })
+                .ToListAsync();
+
+            return orders;
         }
     }
 }

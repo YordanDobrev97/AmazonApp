@@ -1,5 +1,6 @@
 ﻿using AmazonSystem.Orders.Repository;
 using AmazonSystem.Orders.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AmazonSystem.Web.Services.Orders
@@ -21,6 +22,11 @@ namespace AmazonSystem.Web.Services.Orders
         public async Task<OrderDetailsViewModel> Details(int orderId)
         {
             return await this.ordersRepository.Details(orderId);
+        }
+
+        public async Task<List<UserOrdersViewModel>> GetUserOrders(string userId)
+        {
+            return await this.ordersRepository.GetUserOrders(userId);
         }
     }
 }

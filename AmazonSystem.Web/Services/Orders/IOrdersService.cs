@@ -1,4 +1,5 @@
 ﻿using AmazonSystem.Orders.ViewModels;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AmazonSystem.Web.Services.Orders
@@ -8,5 +9,7 @@ namespace AmazonSystem.Web.Services.Orders
         Task<int> Create(CreateOrderViewModel model);
 
         Task<OrderDetailsViewModel> Details(int orderId);
+
+        Task<List<UserOrdersViewModel>> GetUserOrders(string userId);
     }
 }

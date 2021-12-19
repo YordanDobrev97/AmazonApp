@@ -9,5 +9,7 @@ namespace AmazonSystem.Orders.Repository
         Task<int> Create(CreateOrderViewModel model);
 
         Task<OrderDetailsViewModel> Details(int orderId);
+
+        Task<List<UserOrdersViewModel>> GetUserOrders(string userId);
     }
 }

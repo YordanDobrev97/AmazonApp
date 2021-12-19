@@ -1,0 +1,40 @@
+﻿@using AmazonSystem.Orders.ViewModels
+@model List<UserOrdersViewModel>
+
+@{ ViewData["Title"] = "My Orders"; }
+
+<link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+
+<div class="container mt-5">
+    <table class="table table-borderless main">
+        <thead>
+            <tr class="head">
+                <th scope="col">Order ID</th>
+                <th scope="col">Product Category</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="rounded bg-white">
+                    <td class="order-color">@item.Order.Id</td>
+                    <td>@item.Product.Category.Name</td>
+                    <td class="d-flex align-items-center">
+                        <span class="ml-2">@item.Product.Name</span>
+                    </td>
+                    <td>@item.Product.Price</td>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-primary btn-sm dropdown-toggle text-dark" 
+                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" 
+                                    aria-expanded="false"> @item.Order.ShippingStatus </button>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
