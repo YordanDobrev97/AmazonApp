@@ -1,9 +1,10 @@
 ﻿@using AmazonSystem.Orders.ViewModels
-@model List<UserOrdersViewModel>
+@model AllOrdersViewModel
 
 @{ ViewData["Title"] = "My Orders"; }
 
 <link rel="stylesheet" href="~/css/orders.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/pagination.css" />
 
 <div class="container mt-5">
     <table class="table table-borderless main">
@@ -17,24 +18,74 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Orders)
             {
-                <tr class="rounded bg-white">
-                    <td class="order-color">@item.Order.Id</td>
-                    <td>@item.Product.Category.Name</td>
-                    <td class="d-flex align-items-center">
-                        <span class="ml-2">@item.Product.Name</span>
-                    </td>
-                    <td>@item.Product.Price</td>
-                    <td>
-                        <div class="dropdown">
-                            <button class="btn btn-primary btn-sm dropdown-toggle text-dark" 
-                                    type="button" id="dropdownMenuButton" data-toggle="dropdown" 
-                                    aria-expanded="false"> @item.Order.ShippingStatus </button>
-                        </div>
-                    </td>
-                </tr>
-            }
+<tr class="rounded bg-white">
+    <td class="order-color">@item.Order.Id</td>
+    <td>@item.Product.Category.Name</td>
+    <td class="d-flex align-items-center">
+        <span class="ml-2">@item.Product.Name</span>
+    </td>
+    <td>@item.Product.Price</td>
+    <td>
+        <div class="dropdown">
+            <button class="btn btn-primary btn-sm dropdown-toggle text-dark"
+                    type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                    aria-expanded="false">
+                @item.Order.ShippingStatus
+            </button>
+        </div>
+    </td>
+</tr>            }
         </tbody>
     </table>
+
+    @{
+        int pageToShow = Model.PagesCount;
+        var pagesToShow = new List<int>();
+
+        for (int i = 1; i <= pageToShow; i++)
+        {
+            pagesToShow.Add(i);
+        }
+
+        for (var i = this.Model.CurrentPage - pageToShow; i <= this.Model.CurrentPage + pageToShow; i++)
+        {
+            if (i > 0)
+            {
+                pagesToShow.Add(i);
+            }
+        }
+
+        for (var i = this.Model.PagesCount - pageToShow; i <= this.Model.PagesCount; i++)
+        {
+            if (i > 0)
+            {
+                pagesToShow.Add(i);
+            }
+        }
+
+        pagesToShow = pagesToShow.Where(x => x <= this.Model.PagesCount).Distinct().OrderBy(x => x).ToList();
+    }
+
+    <div class="container">
+        <div class="pagination">
+            <ul class="pagination-2">
+                @for (var i = 0; i < pagesToShow.Count; i++)
+                {
+                    var className = string.Empty;
+                    var pageNumber = pagesToShow[i];
+
+                    if (pageNumber == this.Model.CurrentPage)
+                    {
+                        className = "active";
+                    }
+
+                    <li class="page-number @className">
+                        <a class="" asp-controller="Orders" asp-action="Index" asp-route-id="@pageNumber">@pageNumber</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>

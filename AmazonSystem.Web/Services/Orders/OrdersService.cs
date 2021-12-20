@@ -24,9 +24,9 @@ namespace AmazonSystem.Web.Services.Orders
             return await this.ordersRepository.Details(orderId);
         }
 
-        public async Task<List<UserOrdersViewModel>> GetUserOrders(string userId)
+        public async Task<AllOrdersViewModel> GetUserOrders(string userId, int id)
         {
-            return await this.ordersRepository.GetUserOrders(userId);
+            return await this.ordersRepository.GetUserOrders(userId, id);
         }
     }
 }

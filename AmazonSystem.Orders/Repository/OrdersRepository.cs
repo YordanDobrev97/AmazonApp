@@ -62,10 +62,15 @@ namespace AmazonSystem.Orders.Repository
             throw new System.NotImplementedException();
         }
 
-        public async Task<List<UserOrdersViewModel>> GetUserOrders(string userId)
+        public async Task<AllOrdersViewModel> GetUserOrders(string userId, int id)
         {
+            var max = GlobalConstants.MaxListOrders;
+            int skip = (id - 1) * max;
+
             var orders = await this.dbContext.OrderItems
                 .Where(x => x.Order.CustomerId == userId)
+                .Skip(skip)
+                .Take(max)
                 .Include(x => x.Product.Category)
                 .Select(x => new UserOrdersViewModel()
                 {
@@ -74,7 +79,14 @@ namespace AmazonSystem.Orders.Repository
                 })
                 .ToListAsync();
 
-            return orders;
+            var viewModel = new AllOrdersViewModel()
+            {
+                Orders = orders,
+                CurrentPage = id,
+                PagesCount = (int)Math.Ceiling(this.dbContext.Orders.Count() / (decimal)max),
+            };
+
+            return viewModel;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using AmazonSystem.Web.Services.Orders;
+using AmazonSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -14,11 +16,11 @@ namespace AmazonSystem.Web.Controllers
             this.ordersService = ordersService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id = 1)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var orders = await this.ordersService.GetUserOrders(userId);
-            return View(orders);
+            var viewModel = await this.ordersService.GetUserOrders(userId, id);
+            return View(viewModel);
         }
     }
 }

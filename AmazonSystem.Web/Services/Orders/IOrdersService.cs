@@ -10,6 +10,6 @@ namespace AmazonSystem.Web.Services.Orders
 
         Task<OrderDetailsViewModel> Details(int orderId);
 
-        Task<List<UserOrdersViewModel>> GetUserOrders(string userId);
+        Task<AllOrdersViewModel> GetUserOrders(string userId, int id);
     }
 }
