@@ -14,6 +14,7 @@ namespace AmazonSystem.Products.Repository
     public class ProductsRepository : IProductsRepository
     {
         private readonly ApplicationDbContext dbContext;
+        private const int Max = GlobalConstants.ProductPerPage;
 
         public ProductsRepository(ApplicationDbContext dbContext)
         {
@@ -22,13 +23,12 @@ namespace AmazonSystem.Products.Repository
 
         public async Task<ProductViewModel> All(int id)
         {
-            var max = GlobalConstants.ProductPerPage;
-            var skip = (id - 1) * max;
+            var skip = (id - 1) * Max;
 
             var products = await this.dbContext.Products
                 .Skip(skip)
-                .Take(max)
-                .Select(p => new ListProductViewModel
+                .Take(Max)
+                .Select(p => new ProductByCategoryViewModel
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -44,7 +44,7 @@ namespace AmazonSystem.Products.Repository
             var viewModel = new ProductViewModel()
             {
                 CurrentPage = id,
-                PagesCount = (int)Math.Ceiling(this.dbContext.Products.Count() / (decimal)max),
+                PagesCount = (int)Math.Ceiling(this.dbContext.Products.Count() / (decimal)Max),
                 Products = products,
                 Categories = categories
             };
@@ -139,10 +139,15 @@ namespace AmazonSystem.Products.Repository
             await this.dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<ListProductViewModel>> SearchByCategory(string category)
+        public async Task<ListProductViewModel> SearchByCategory(int id, string category)
         {
-            var products = await this.dbContext.Products.Where(x => x.Category.Name == category)
-                .Select(x => new ListProductViewModel()
+            var skip = (id - 1) * Max;
+            var allCategoryProducts = this.dbContext.Products.Where(x => x.Category.Name == category);
+
+            var products = await allCategoryProducts
+                .Skip(skip)
+                .Take(Max)
+                .Select(x => new ProductByCategoryViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -150,7 +155,15 @@ namespace AmazonSystem.Products.Repository
                     Price = x.Price,
                 }).ToListAsync();
 
-            return products;
+            var viewModel = new ListProductViewModel()
+            {
+                Category = category,
+                Products = products,
+                CurrentPage = id,
+                PagesCount = (int)Math.Ceiling(allCategoryProducts.Count() / (decimal)Max),
+            };
+
+            return viewModel;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace AmazonSystem.Web.Areas.Admin.Controllers
         [Route("api/[controller]/SearchByCategory")]
         public async Task<IActionResult> SearchByCategory([FromBody] CategorySearchViewModel inputModel)
         {
-            var products = await this.productsService.SearchByCategory(inputModel.Category);
+            var products = await this.productsService.SearchByCategory(1, inputModel.Category);
             return new JsonResult(products);
         }
     }

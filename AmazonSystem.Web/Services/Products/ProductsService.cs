@@ -47,9 +47,9 @@ namespace AmazonSystem.Web.Services.Products
             return product;
         }
 
-        public async Task<List<ListProductViewModel>> SearchByCategory(string category)
+        public async Task<ListProductViewModel> SearchByCategory(int id, string category)
         {
-            var productsByCategory = await this.productsRepository.SearchByCategory(category);
+            var productsByCategory = await this.productsRepository.SearchByCategory(id, category);
             return productsByCategory;
         }
     }

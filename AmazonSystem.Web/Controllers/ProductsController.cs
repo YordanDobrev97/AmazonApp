@@ -1,4 +1,5 @@
 ﻿using AmazonSystem.Web.Services.Products;
+using AmazonSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -13,9 +14,9 @@ namespace AmazonSystem.Web.Controllers
             this.productsService = productsService;
         }
 
-        public async Task<IActionResult> ProductsByCategory(string category)
+        public async Task<IActionResult> ProductsByCategory(ProductsByCategoryInputModel input)
         {
-            var products = await this.productsService.SearchByCategory(category);
+            var products = await this.productsService.SearchByCategory(input.Id, input.Category);
             return this.View(products);
         }
 

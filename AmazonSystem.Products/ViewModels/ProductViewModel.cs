@@ -8,7 +8,7 @@ namespace AmazonSystem.Products.ViewModels
 
         public int PagesCount { get; set; }
 
-        public List<ListProductViewModel> Products { get; set; }
+        public List<ProductByCategoryViewModel> Products { get; set; }
 
         public List<CategoryViewModel> Categories { get; set; }
     }

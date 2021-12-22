@@ -18,6 +18,6 @@ namespace AmazonSystem.Web.Services.Products
 
         Task UpdateAsync(ProductEditViewModel product);
 
-        Task<List<ListProductViewModel>> SearchByCategory(string category);
+        Task<ListProductViewModel> SearchByCategory(int id, string category);
     }
 }

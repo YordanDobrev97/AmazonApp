@@ -1,13 +1,15 @@
-﻿namespace AmazonSystem.Products.ViewModels
+﻿using System.Collections.Generic;
+
+namespace AmazonSystem.Products.ViewModels
 {
     public class ListProductViewModel
     {
-        public int Id { get; set; }
+        public string Category { get; set; }
 
-        public string Name { get; set; }
+        public List<ProductByCategoryViewModel> Products { get; set; }
 
-        public string ImageUrl { get; set; }
+        public int CurrentPage { get; set; }
 
-        public decimal Price { get; set; }
+        public int PagesCount { get; set; }
     }
 }
