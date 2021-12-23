@@ -1,12 +1,19 @@
 ﻿@using AmazonSystem.Products.ViewModels
- 
+@using Newtonsoft.Json
+
 @model ListProductViewModel
 
 @{
     ViewData["Title"] = "Products";
+
+    var products = JsonConvert.SerializeObject(Model.Products);
 }
 
-<link rel="stylesheet" href="~/css/productsByCategory.css"/>
+<link rel="stylesheet" href="~/css/productsByCategory.css" asp-append-version="true" />
+
+<script src="~/js/ajaxProductsByPrice.js" asp-append-version="true"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
 <div class="container">
     <div class="bg-white rounded d-flex align-items-center justify-content-between" id="header">
         <button class="btn btn-hide text-uppercase" type="button" data-toggle="collapse" data-target="#filterbar" aria-expanded="false" aria-controls="filterbar" id="filter-btn" onclick="changeBtnTxt()"> <span class="fas fa-angle-left" id="filter-angle"></span> <span id="btn-txt">Hide filters</span> </button>
@@ -22,31 +29,21 @@
                             <option value="rating">Rating</option>
                         </select>
                     </li>
-                    <li class="nav-item d-inline-flex align-items-center justify-content-between mb-lg-0 mb-3">
-                        <div class="d-inline-flex align-items-center mx-lg-2" id="select2">
-                            <div class="pl-2">Products:</div> <select name="pro" id="pro">
-                                <option value="18">18</option>
-                                <option value="19">19</option>
-                                <option value="20">20</option>
-                            </select>
-                        </div>
-                        <div class="font-weight-bold mx-2 result">18 from 200</div>
-                    </li>
-                    <li class="nav-item d-lg-none d-inline-flex"> </li>
                 </ul>
             </div>
         </nav>
         <div class="ml-auto mt-3 mr-2">
             <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    @for (var i = 1; i <= Model.PagesCount; i++)
+                <ul class="pagination"></ul>
+                <!--<ul class="pagination">-->
+                @*@for (var i = 1; i <= Model.PagesCount; i++)
                     {
                         <li class="page-item active">
                             <a class="page-link" asp-controller="Products" asp-action="ProductsByCategory"
                                asp-route-category="@Model.Category" asp-route-id="@i">@i</a>
                         </li>
-                    }
-                </ul>
+                    }*@
+                <!--</ul>-->
             </nav>
         </div>
     </div>
@@ -97,19 +94,42 @@
                 </div>
                 <div id="inner-box2" class="collapse mt-2 mr-1">
                     <div class="my-1">
-                        <label class="tick">Under <i class="fas fa-dollar-sign"></i>25</label>
+                        <button onclick="under25(@products)" class="border-0" style="background: none;">
+                            Under <i class="fas fa-dollar-sign"></i>25
+                        </button>
                     </div>
                     <div class="my-1">
-                        <label class="tick"><i class="fas fa-dollar-sign"></i>25 to <i class="fas fa-dollar-sign"></i>50</label>
+                        <button class="border-0" style="background: none;"
+                                onclick="between25and50('@Model.Category', '@Model.CurrentPage')">
+                            <label class="tick">
+                                <i class="fas fa-dollar-sign"></i>25 to <i class="fas fa-dollar-sign"></i>50
+                            </label>
+                        </button>
                     </div>
                     <div class="my-1">
-                        <label class="tick"><i class="fas fa-dollar-sign"></i>50 to <i class="fas fa-dollar-sign"></i>100</label>
+                        <button class="border-0" style="background: none;"
+                                onclick="between50and100('@Model.Category', '@Model.CurrentPage')">
+                            <label class="tick">
+                                <i class="fas fa-dollar-sign">
+                                </i>50 to <i class="fas fa-dollar-sign"></i>100
+                            </label>
+                        </button>
                     </div>
                     <div class="my-1">
-                        <label class="tick"><i class="fas fa-dollar-sign"></i>100 to <i class="fas fa-dollar-sign"></i>200</label>
+                        <button class="border-0" style="background: none;"
+                                onclick="between100and200('@Model.Category', '@Model.CurrentPage')">
+                            <label class="tick">
+                                <i class="fas fa-dollar-sign"></i>100 to <i class="fas fa-dollar-sign"></i>200
+                            </label>
+                        </button>
                     </div>
                     <div class="my-1">
-                        <label class="tick"><i class="fas fa-dollar-sign"></i>200 & <i class="fas fa-dollar-sign"></i>Above</label>
+                        <button class="border-0" style="background: none;"
+                                onclick="above200('@Model.Category', '@Model.CurrentPage')">
+                            <label class="tick">
+                                <i class="fas fa-dollar-sign"></i>200 & <i class="fas fa-dollar-sign"></i>Above
+                            </label>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -161,7 +181,7 @@
             </div>
         </div>
         <div id="products">
-            <div class="row mx-0">
+            <div id="items" class="row mx-0">
                 @if (Model.Products.Count == 0)
                 {
                     <div class="alert alert-info">No items</div>
@@ -171,28 +191,101 @@
                     <p style="display: none;" class="alert alert-info w-100 message-cart"></p>
                 </div>
 
-                @foreach (var product in Model.Products)
-                {
-                    <div class="col-lg-4 col-md-6">
-                        <div class="card d-flex flex-column align-items-center">
-                            <div class="product-name">@product.Name</div>
-                            <div class="card-img">
-                                <img src="@product.ImageUrl" alt="product image">
-                            </div>
-                            <div class="card-body pt-5">
-                                <div class="d-flex align-items-center price text-md-center">
-                                    <span><i class="fas fa-dollar-sign"></i></span>
-                                    <div class="text-md-center">@product.Price</div>
+                @*@foreach (var product in Model.Products)
+                    {
+                        <a href="javascript:void(0)">
+                            <div class="list-product col-lg-4 col-md-6">
+                                <div class="card d-flex flex-column align-items-center">
+                                    <div class="product-name">@product.Name</div>
+                                    <div class="card-img">
+                                        <img src="@product.ImageUrl" alt="product image">
+                                    </div>
+                                    <div class="card-body pt-5">
+                                        <div class="d-flex align-items-center price text-md-center">
+                                            <span><i class="fas fa-dollar-sign"></i></span>
+                                            <div class="text-md-center">@product.Price</div>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="w-75 btn btn-outline-success">Details</a>
+                                            <button onclick="addToCart('@product.Id')" class="w-75 btn btn-outline-warning" style="min-width: 120px; margin-left: 8px;">Add to cart</button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="d-flex align-items-center">
-                                    <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="w-75 btn btn-outline-success">Details</a>
-                                    <button onclick="addToCart('@product.Id')" class="w-75 btn btn-outline-warning" style="min-width: 120px; margin-left: 8px;">Add to cart</button>
-                                </div>
                             </div>
-                        </div>
-                    </div>
-                }
+                        </a>
+                    }*@
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    const products = @Html.Raw(Json.Serialize(Model.Products));
+    let currentPage = 1
+    let productsPerPage = 3
+    let totalPages = Math.ceil(products.length / productsPerPage)
+
+    const handleNewPage = (e) => {
+        const newPage = Number(e.target.innerHTML)
+
+        currentPage = newPage;
+        // TODO ...
+
+    }
+
+    const displayTotalPages = (totalPages) => {
+        const pagination = $('.pagination')
+
+        for (let i = 1; i <= totalPages; i++) {
+            const li = document.createElement('li')
+            li.className = 'page-link'
+            li.textContent = i;
+            li.addEventListener('click', handleNewPage)
+            pagination.append(li)
+        }
+    }
+
+    const displayPartProducts = (products) => {
+        const container = $('#items')
+        container.html('')
+
+        for (let product of products) {
+            let template = `
+                <div class="list-product col-lg-4 col-md-6">
+                     <div class="card d-flex flex-column align-items-center">
+                          <div class="product-name">product.Name</div>
+                               <div class="card-img">
+                                    <img src="product.ImageUrl" alt="product image">
+                               </div>
+                               <div class="card-body pt-5">
+                                    <div class="d-flex align-items-center price text-md-center">
+                                         <span><i class="fas fa-dollar-sign"></i></span>
+                                         <div class="text-md-center">product.Price</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                         <a href="/Products/Details/product.Id" class="w-75 btn btn-outline-success">Details</a>
+                                         <button onclick="addToCart('product.Id')" class="w-75 btn btn-outline-warning" style="min-width: 120px; margin-left: 8px;">Add to cart</button>
+                                    </div>
+                              </div>
+                          </div>
+                    </div>
+                </div>
+`
+            template = template
+                .replace('product.Name', product.name)
+                .replace('product.ImageUrl', product.imageUrl)
+                .replace('product.Price', product.price)
+                .replaceAll('product.Id', product.id)
+
+            container.append(template)
+            console.log(product)
+        }
+    }
+
+    function Pagination() {
+        displayTotalPages(totalPages)
+        displayPartProducts(products.slice(currentPage - 1, productsPerPage))
+    }
+
+    Pagination()
+</script>

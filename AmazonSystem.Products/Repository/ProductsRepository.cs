@@ -145,8 +145,6 @@ namespace AmazonSystem.Products.Repository
             var allCategoryProducts = this.dbContext.Products.Where(x => x.Category.Name == category);
 
             var products = await allCategoryProducts
-                .Skip(skip)
-                .Take(Max)
                 .Select(x => new ProductByCategoryViewModel()
                 {
                     Id = x.Id,
