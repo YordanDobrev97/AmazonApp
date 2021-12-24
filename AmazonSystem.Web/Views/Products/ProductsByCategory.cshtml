@@ -13,6 +13,7 @@
 
 <script src="~/js/ajaxProductsByPrice.js" asp-append-version="true"></script>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/pagination.js" asp-append-version="true"></script>
 
 <div class="container">
     <div class="bg-white rounded d-flex align-items-center justify-content-between" id="header">
@@ -190,102 +191,14 @@
                 <div class="col-md-12">
                     <p style="display: none;" class="alert alert-info w-100 message-cart"></p>
                 </div>
-
-                @*@foreach (var product in Model.Products)
-                    {
-                        <a href="javascript:void(0)">
-                            <div class="list-product col-lg-4 col-md-6">
-                                <div class="card d-flex flex-column align-items-center">
-                                    <div class="product-name">@product.Name</div>
-                                    <div class="card-img">
-                                        <img src="@product.ImageUrl" alt="product image">
-                                    </div>
-                                    <div class="card-body pt-5">
-                                        <div class="d-flex align-items-center price text-md-center">
-                                            <span><i class="fas fa-dollar-sign"></i></span>
-                                            <div class="text-md-center">@product.Price</div>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <a asp-area="" asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="w-75 btn btn-outline-success">Details</a>
-                                            <button onclick="addToCart('@product.Id')" class="w-75 btn btn-outline-warning" style="min-width: 120px; margin-left: 8px;">Add to cart</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    }*@
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    const products = @Html.Raw(Json.Serialize(Model.Products));
-    let currentPage = 1
-    let productsPerPage = 3
-    let totalPages = Math.ceil(products.length / productsPerPage)
-
-    const handleNewPage = (e) => {
-        const newPage = Number(e.target.innerHTML)
-
-        currentPage = newPage;
-        // TODO ...
-
-    }
-
-    const displayTotalPages = (totalPages) => {
-        const pagination = $('.pagination')
-
-        for (let i = 1; i <= totalPages; i++) {
-            const li = document.createElement('li')
-            li.className = 'page-link'
-            li.textContent = i;
-            li.addEventListener('click', handleNewPage)
-            pagination.append(li)
-        }
-    }
-
-    const displayPartProducts = (products) => {
-        const container = $('#items')
-        container.html('')
-
-        for (let product of products) {
-            let template = `
-                <div class="list-product col-lg-4 col-md-6">
-                     <div class="card d-flex flex-column align-items-center">
-                          <div class="product-name">product.Name</div>
-                               <div class="card-img">
-                                    <img src="product.ImageUrl" alt="product image">
-                               </div>
-                               <div class="card-body pt-5">
-                                    <div class="d-flex align-items-center price text-md-center">
-                                         <span><i class="fas fa-dollar-sign"></i></span>
-                                         <div class="text-md-center">product.Price</div>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                         <a href="/Products/Details/product.Id" class="w-75 btn btn-outline-success">Details</a>
-                                         <button onclick="addToCart('product.Id')" class="w-75 btn btn-outline-warning" style="min-width: 120px; margin-left: 8px;">Add to cart</button>
-                                    </div>
-                              </div>
-                          </div>
-                    </div>
-                </div>
-`
-            template = template
-                .replace('product.Name', product.name)
-                .replace('product.ImageUrl', product.imageUrl)
-                .replace('product.Price', product.price)
-                .replaceAll('product.Id', product.id)
-
-            container.append(template)
-            console.log(product)
-        }
-    }
-
-    function Pagination() {
-        displayTotalPages(totalPages)
-        displayPartProducts(products.slice(currentPage - 1, productsPerPage))
-    }
-
-    Pagination()
+    $(document).ready(function () {
+        const products = @Html.Raw(Json.Serialize(Model.Products))
+        pagination(products)
+    });
 </script>
