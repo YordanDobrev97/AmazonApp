@@ -1,4 +1,6 @@
-﻿
+﻿@using AmazonSystem.Common.ViewModels 
+@model ProfileDataViewModel 
+
 @{ ViewData["Title"] = "My Profile"; }
 
 <script src="~/js/ajaxProfileSettings.js"></script>
@@ -27,36 +29,36 @@
                 <div class="row mt-2">
                     <div class="col-md-6">
                         <label class="labels">First Name</label>
-                        <input id="firstName" type="text" class="form-control" placeholder="First Name...">
+                        <input id="firstName" type="text" class="form-control" placeholder="First Name..." value="@Model.FirstName">
                     </div>
                     <div class="col-md-6">
                         <label class="labels">Last Name</label>
-                        <input id="lastName" type="text" class="form-control" placeholder="Last Name...">
+                        <input id="lastName" type="text" class="form-control" placeholder="Last Name..." value="@Model.LastName">
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">Mobile Number</label>
-                        <input id="phoneNumber" type="text" class="form-control" placeholder="enter phone number" value="">
+                        <input id="phoneNumber" type="text" class="form-control" placeholder="enter phone number" value="@Model.Phone">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Street</label>
-                        <input id="street" type="text" class="form-control" placeholder="Enter steet name">
+                        <input id="street" type="text" class="form-control" placeholder="Enter steet name" value="@Model.Street">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">City</label>
-                        <input id="city" type="text" class="form-control" placeholder="Enter your city">
+                        <input id="city" type="text" class="form-control" placeholder="Enter your city" value="@Model.City">
                     </div>
                     <div class="col-md-12">
                         <label class="labels">Postcode</label>
-                        <input id="postcode" type="text" class="form-control" placeholder="Enter your postcode">
+                        <input id="postcode" type="text" class="form-control" placeholder="Enter your postcode" value="@Model.ZipCode">
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col-md-12">
                         <label class="labels">Country</label>
                         <select id="country" class="form-control">
-                            <option>Select your country</option>
+                            <option selected>@Model.Country</option>
                             <option value="bulgaria">Bulgaria</option>
                             <option value="united kingdom">UK</option>
                             <option value="united states">USA</option>

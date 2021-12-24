@@ -1,6 +1,8 @@
-﻿using AmazonSystem.Data;
+﻿using AmazonSystem.Common.ViewModels;
+using AmazonSystem.Data;
 using AmazonSystem.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AmazonSystem.Common.Services.Users
@@ -60,6 +62,24 @@ namespace AmazonSystem.Common.Services.Users
 
             await this.dbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<ProfileDataViewModel> GetProfileData(string userId)
+        {
+            var user = await this.dbContext.Users
+                .Where(x => x.Id == userId)
+                .Select(x => new ProfileDataViewModel()
+                {
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    Phone = x.PhoneNumber,
+                    City = x.Address.City,
+                    ZipCode = x.Address.ZipCode,
+                    Street = x.Address.Street,
+                    Country = x.Address.Country,
+                }).FirstOrDefaultAsync();
+
+            return user;
         }
     }
 }

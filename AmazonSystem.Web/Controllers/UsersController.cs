@@ -15,9 +15,11 @@ namespace AmazonSystem.Web.Controllers
             this.usersService = usersService;
         }
 
-        public IActionResult Profile()
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userData = await this.usersService.GetProfileData(userId);
+            return View(userData);
         }
 
         [HttpPost]
