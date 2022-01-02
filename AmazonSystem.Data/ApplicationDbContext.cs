@@ -29,6 +29,10 @@ namespace AmazonSystem.Data
 
         public DbSet<CashPayment> CashPayments { get; set; }
 
+        public DbSet<Sale> Sales { get; set; }
+
+        public DbSet<SaleProduct> SaleProducts { get; set; }
+
         public DbSet<Operator> Operators { get; set; }
     }
 }
