@@ -1,4 +1,5 @@
 using AmazonSystem.Data;
+using AmazonSystem.Products.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -43,6 +44,8 @@ namespace AmazonSystem.Products
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "AmazonSystem.Products", Version = "v1" });
             });
+
+            services.AddScoped<IProductsRepository, ProductsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
